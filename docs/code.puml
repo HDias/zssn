@@ -1,0 +1,137 @@
+@startuml ZSSN_System
+
+class Survivor {
+  +name: string
+  +age: integer
+  +gender: string
+  +latitude: float
+  +longitude: float
+  +infected: boolean
+  +infection_reports: integer
+  +inventory_items: InvenftoryItem[]
+  +infection_reports: InfectionReport[]
+}
+
+class Inventory {
+  -survivor: Survivor
+  --
+  +add_item(item: Item)
+  +remove_item(item: Item, location: Location)
+}
+
+class Location {
+  -latitude: float
+  -longitude: float
+  --
+  +distance_to(location: Location)
+}
+
+class Item {
+  +id: integer
+  +name: string
+  +point_value: integer
+  +latitude: float
+  +longitude: float
+  +kind: enum
+}
+
+class GlobalItemStock {
+  +item_id: integer
+  +total_quantity: integer
+}
+
+class InventoryItem {
+  +id: integer
+  +survivor: Survivor
+  +item_id: integer
+  +quantity: integer
+}
+
+class InfectionReport {
+  +id: integer
+  +reporter_id: integer
+  +reported_id: integer
+  +reporter_latitude: float
+  +reporter_longitude: float
+  +created_at: datetime
+}
+
+class Trade {
+  -barterer: Survivor
+  -counterpart: Survivor
+  --
+  +exchange_items(barterer_items: Hash, counterpart_items: Hash)
+  -validate_points(barterer_items: Hash, counterpart_items: Hash)
+}
+
+' Controllers
+class SurvivorsController {
+  +create()
+  +update()
+}
+
+class Survivors::InfectionReportsController {
+  +create()
+}
+
+class Survivors::InventoriesController {
+  +update()
+  +destroy()
+}
+
+class TradesController {
+  +create()
+}
+
+class Reports::InfectedPercentageController {
+  +index()
+}
+
+class Reports::NonInfectedPercentageController {
+  +index()
+}
+
+class Reports::AverageItemsPerSurvivorController {
+  +index()
+}
+
+class Reports::PointsLostByInfectedController {
+  +index()
+}
+
+' Relationships
+Item "1" -- "*" InventoryItem : belongs to >
+Item "1" -- "1" GlobalItemStock : has >
+Survivor "1" -- "*" InfectionReport : reports >
+Survivor "1" -- "*" InfectionReport : is reported in >
+
+SurvivorsController ..> Survivor : manages
+Survivors::InfectionReportsController ..> InfectionReport : manages
+Survivors::InventoriesController ..> Inventory : manages
+Inventory ..> Item : manages
+TradesController ..> Trade : manages
+Reports::InfectedPercentageController ..> Survivor : queries
+Reports::NonInfectedPercentageController ..> Survivor : queries
+Reports::AverageItemsPerSurvivorController ..> Survivor : queries
+Reports::PointsLostByInfectedController ..> Survivor : queries
+
+note right of Survivor
+  A survivor is considered infected
+  when reported by 3 different survivors
+end note
+
+note right of Item
+  Item kinds:
+  - water
+  - food
+  - medicine
+  - ammunition
+
+  Point values:
+  Water: 4 points
+  Food: 3 points
+  Medicine: 2 points
+  Ammunition: 1 point
+end note
+
+@enduml
