@@ -13,6 +13,16 @@ module Api
         end
       end
 
+      def update
+        @survivor = Survivor.find(params[:id])
+
+        if @survivor.update(location_params)
+          render json: SurvivorSerializer.new(@survivor).as_json, status: :ok
+        else
+          render json: { errors: @survivor.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def survivor_params
@@ -23,6 +33,10 @@ module Api
           :latitude,
           :longitude
         )
+      end
+
+      def location_params
+        params.require(:survivor).permit(:latitude, :longitude)
       end
     end
   end

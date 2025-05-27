@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Survivors', type: :request do
-  describe 'POST /api/v1/survivors' do
+RSpec.describe Api::V1::SurvivorsController, type: :request do
+  describe '#create' do
     let(:valid_attributes) do
       {
         survivor: {
