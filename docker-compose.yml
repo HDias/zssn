@@ -1,0 +1,40 @@
+services:
+  api_zssn:
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    ports:
+      - "3002:3000"
+    command: bash -c "rm -f tmp/pids/server.pid || true && bin/rails s -p 3000 -b '0.0.0.0'"
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/api_zssn
+      - bundle_path:/bundle
+    depends_on:
+      - db_zssn
+    networks:
+      - api_zssn
+
+  db_zssn:
+    image: postgres:17
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: zssn_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TMZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
+    ports:
+      - "5553:5432"
+    networks:
+      - api_zssn
+
+volumes:
+  bundle_path:
+  pg_data:
+
+networks:
+  api_zssn:
+    name: api_zssn

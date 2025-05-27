@@ -26,4 +26,13 @@ O diagrama do sistema pode ser encontrado em [docs/code.puml](docs/code.puml) e 
 
 Para "rodar" o projeto: [Plant UML em Docker](https://plantuml.com/starting)
 
+## Run app com docker
+
+- Necessário ter o `docker` e `docker compose`
+- Para instalação docker e docker compose acesse: [DOCKER](https://docs.docker.com/engine/install/ubuntu/), [POST-INSTALL](https://docs.docker.com/engine/install/linux-postinstall/), [DOCKER COMPOSE](https://docs.docker.com/compose/)
+- Versão docker e docker compose que foi relaizado a primeira configuração: `Docker version 28.1.1, build 4eba377`, `Docker Compose version v2.35.1`
+
+- Clone o projeto, na raiz do projeto rode `docker compose up`
+- Estará rodando em `http://0.0.0.0:3002/`
+- Para executar os testes: `docker compose exec api_zssn bin/rspec`
 

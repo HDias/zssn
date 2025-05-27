@@ -1,0 +1,28 @@
+FROM ruby:3.2.3
+
+RUN apt-get update -qq && apt-get install -y
+RUN apt-get update -qq
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    curl \
+    git \
+    libpq-dev \
+    libvips \
+    pkg-config \
+    python-is-python3 \
+    postgresql-client \
+    default-libmysqlclient-dev \
+    vim
+
+WORKDIR /api_zssn
+
+# Install application gems
+COPY Gemfile .
+COPY Gemfile.lock .
+RUN gem install bundler:$(tail -n 1 Gemfile.lock | awk '{print $1}')
+RUN bundle install
+
+COPY . .
+
+EXPOSE 3000
