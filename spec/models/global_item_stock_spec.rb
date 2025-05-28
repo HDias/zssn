@@ -10,6 +10,10 @@ RSpec.describe GlobalItemStock, type: :model do
 
     it { should validate_presence_of(:total_quantity) }
     it { should validate_numericality_of(:total_quantity).only_integer.is_greater_than_or_equal_to(0) }
-    it { should validate_uniqueness_of(:item_id).with_message("already has a global stock record") }
+
+    describe 'uniqueness' do
+      subject { create(:global_item_stock, item: create(:item, :water)) }
+      it { should validate_uniqueness_of(:item_id).with_message("already has a global stock record") }
+    end
   end
 end

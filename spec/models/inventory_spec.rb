@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Inventory do
   let(:survivor) { create(:survivor) }
-  let(:inventory) { described_class.new(survivor) }
+  let(:inventory) { create(:inventory, survivor:) }
 
   describe '#add_item' do
     context 'when adding a water item' do
@@ -83,7 +83,7 @@ RSpec.describe Inventory do
     context 'when adding an item that already exists in inventory' do
       let(:item) { create(:item, :water) }
       let!(:global_stock) { create(:global_item_stock, item:, total_quantity: 10) }
-      let!(:existing_item) { create(:inventory_item, survivor:, item: item, quantity: 2) }
+      let!(:existing_item) { create(:inventory_item, inventory:, item:, quantity: 2) }
 
       it 'increments the quantity of the existing item and decreases global stock' do
         expect {
@@ -100,7 +100,7 @@ RSpec.describe Inventory do
   describe '#remove_item' do
     let(:item) { create(:item, :water) }
     let!(:global_stock) { create(:global_item_stock, item:, total_quantity: 10) }
-    let!(:inventory_item) { create(:inventory_item, survivor:, item: item, quantity: 2) }
+    let!(:inventory_item) { create(:inventory_item, inventory:, item:, quantity: 2) }
 
     it 'decrements the quantity and increases global stock' do
       expect {
@@ -110,14 +110,13 @@ RSpec.describe Inventory do
     end
 
     context 'when quantity becomes zero' do
-      let!(:inventory_item) { create(:inventory_item, survivor:, item: item, quantity: 1) }
+      let!(:inventory_item) { create(:inventory_item, inventory:, item:, quantity: 1) }
 
       it 'removes the inventory item and increases global stock' do
         expect {
           inventory.remove_item(item)
-        }.to not_change(InventoryItem, :count)
-          .and change { global_stock.reload.total_quantity }.by(1)
-          .and change { inventory_item.reload.quantity }.by(-1)
+        }.to change { global_stock.reload.total_quantity }.by(1)
+          .and change(InventoryItem, :count).from(1).to(0)
       end
     end
 

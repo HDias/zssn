@@ -15,7 +15,8 @@ FactoryBot.define do
 
     trait :with_inventory do
       after(:create) do |survivor|
-        create_list(:inventory_item, rand(1..5), survivor: survivor)
+        inventory = create(:inventory, survivor: survivor)
+        create_list(:inventory_item, rand(1..5), inventory: inventory)
       end
     end
   end

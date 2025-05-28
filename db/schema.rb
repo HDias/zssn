@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_28_012234) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_28_032710) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,14 +31,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_012234) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "inventory_items", force: :cascade do |t|
+  create_table "inventories", force: :cascade do |t|
     t.bigint "survivor_id", null: false
+    t.integer "total_items", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survivor_id"], name: "index_inventories_on_survivor_id"
+  end
+
+  create_table "inventory_items", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.integer "quantity", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inventory_id", null: false
+    t.index ["inventory_id"], name: "index_inventory_items_on_inventory_id"
     t.index ["item_id"], name: "index_inventory_items_on_item_id"
-    t.index ["survivor_id"], name: "index_inventory_items_on_survivor_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -64,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_012234) do
   end
 
   add_foreign_key "global_item_stocks", "items"
+  add_foreign_key "inventories", "survivors"
+  add_foreign_key "inventory_items", "inventories"
   add_foreign_key "inventory_items", "items"
-  add_foreign_key "inventory_items", "survivors"
 end

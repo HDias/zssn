@@ -28,5 +28,6 @@ class Survivor < ApplicationRecord
 
   has_many :reported_infections, class_name: "InfectionReport", foreign_key: "reporter_id"
   has_many :infection_reports_received, class_name: "InfectionReport", foreign_key: "reported_id"
-  has_many :inventory_items, dependent: :destroy
+  has_one :inventory, dependent: :destroy
+  has_many :inventory_items, through: :inventory
 end

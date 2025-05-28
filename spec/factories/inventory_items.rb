@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :inventory_item do
-    association :survivor
+    association :inventory
     association :item
     quantity { 1 }
   end
