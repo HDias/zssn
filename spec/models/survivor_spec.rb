@@ -24,5 +24,6 @@ RSpec.describe Survivor, type: :model do
   describe 'associations' do
     it { should have_many(:reported_infections).class_name('InfectionReport').with_foreign_key('reporter_id') }
     it { should have_many(:infection_reports_received).class_name('InfectionReport').with_foreign_key('reported_id') }
+    it { should have_many(:inventory_items).dependent(:destroy) }
   end
 end
