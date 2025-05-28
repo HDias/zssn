@@ -27,4 +27,12 @@ RSpec.describe Survivor, type: :model do
     it { should have_one(:inventory).dependent(:destroy) }
     it { should have_many(:inventory_items).through(:inventory) }
   end
+
+  describe 'callbacks' do
+    it 'creates an empty inventory after creation' do
+      survivor = create(:survivor)
+      expect(survivor.inventory).to be_present
+      expect(survivor.inventory.inventory_items).to be_empty
+    end
+  end
 end

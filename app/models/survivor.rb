@@ -30,4 +30,12 @@ class Survivor < ApplicationRecord
   has_many :infection_reports_received, class_name: "InfectionReport", foreign_key: "reported_id"
   has_one :inventory, dependent: :destroy
   has_many :inventory_items, through: :inventory
+
+  after_create :create_empty_inventory
+
+  private
+
+  def create_empty_inventory
+    create_inventory
+  end
 end
