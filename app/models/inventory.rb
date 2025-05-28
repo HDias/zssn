@@ -20,4 +20,18 @@ class Inventory
       global_stock.save!
     end
   end
+
+  def remove_item(item)
+    inventory_item = survivor.inventory_items.find_by(item: item)
+    return false unless inventory_item && inventory_item.quantity > 0
+
+    ActiveRecord::Base.transaction do
+      inventory_item.quantity -= 1
+        inventory_item.save!
+
+      global_stock = item.global_item_stock
+      global_stock.total_quantity += 1
+      global_stock.save!
+    end
+  end
 end

@@ -96,4 +96,39 @@ RSpec.describe Inventory do
       end
     end
   end
+
+  describe '#remove_item' do
+    let(:item) { create(:item, :water) }
+    let!(:global_stock) { create(:global_item_stock, item:, total_quantity: 10) }
+    let!(:inventory_item) { create(:inventory_item, survivor:, item: item, quantity: 2) }
+
+    it 'decrements the quantity and increases global stock' do
+      expect {
+        inventory.remove_item(item)
+      }.to change { inventory_item.reload.quantity }.by(-1)
+        .and change { global_stock.reload.total_quantity }.by(1)
+    end
+
+    context 'when quantity becomes zero' do
+      let!(:inventory_item) { create(:inventory_item, survivor:, item: item, quantity: 1) }
+
+      it 'removes the inventory item and increases global stock' do
+        expect {
+          inventory.remove_item(item)
+        }.to not_change(InventoryItem, :count)
+          .and change { global_stock.reload.total_quantity }.by(1)
+          .and change { inventory_item.reload.quantity }.by(-1)
+      end
+    end
+
+    context 'when item is not in inventory' do
+      let(:other_item) { create(:item, :food) }
+
+      it 'returns false and does not change global stock' do
+        expect {
+          expect(inventory.remove_item(other_item)).to be false
+        }.to not_change { global_stock.reload.total_quantity }
+      end
+    end
+  end
 end
