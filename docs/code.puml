@@ -13,7 +13,9 @@ class Survivor {
 }
 
 class Inventory {
-  -survivor: Survivor
+  +id: integer
+  +survivor: Survivor
+  +total_items: integer
   --
   +add_item(item: Item)
   +remove_item(item: Item, location: Location)
@@ -42,8 +44,8 @@ class GlobalItemStock {
 
 class InventoryItem {
   +id: integer
-  +survivor: Survivor
-  +item_id: integer
+  +inventory: Inventory
+  +item: Item
   +quantity: integer
 }
 
@@ -105,10 +107,12 @@ Item "1" -- "1" GlobalItemStock : has >
 Survivor "1" -- "*" InfectionReport : reports >
 Survivor "1" -- "*" InfectionReport : is reported in >
 
+Inventory "1" -- "*" InventoryItem : has >
+
 SurvivorsController ..> Survivor : manages
 Survivors::InfectionReportsController ..> InfectionReport : manages
 Survivors::InventoriesController ..> Inventory : manages
-Inventory ..> Item : manages
+Inventory ..> InventoryItem : manages
 TradesController ..> Trade : manages
 Reports::InfectedPercentageController ..> Survivor : queries
 Reports::NonInfectedPercentageController ..> Survivor : queries
