@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :survivors, only: [:create, :update] do
-        resource :inventory, only: [:update], controller: 'survivors/inventories'
+      resources :survivors, only: [] do
+        resources :infection_reports, only: [:create], module: :survivors
+        resource :inventory, only: [] do
+          member do
+            patch ':item_id', to: 'survivors/inventories#update'
+            delete ':item_id', to: 'survivors/inventories#destroy'
+          end
+        end
       end
-      resources :infection_reports, only: [:create]
     end
   end
 end

@@ -17,6 +17,17 @@ module Api
           end
         end
 
+        def destroy
+          @inventory = @survivor.inventory
+          item = Item.find(params[:item_id])
+
+          if @inventory.remove_item(item)
+            render json: InventorySerializer.new(@inventory).as_json, status: :ok
+          else
+            render json: { error: "Could not remove item from inventory" }, status: :unprocessable_entity
+          end
+        end
+
         private
 
         def set_survivor
