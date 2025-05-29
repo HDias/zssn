@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :infection_reports, only: [:create]
       resources :survivors, only: [] do
-        resources :infection_reports, only: [:create], module: :survivors
         resource :inventory, only: [] do
           member do
             patch ':item_id', to: 'survivors/inventories#update'
@@ -10,9 +10,9 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :survivors, only: [:create, :update]
       resources :trades, only: [:create]
 
-      # Reports endpoints
       namespace :reports do
         get 'infected_percentage', to: 'infected_percentage#index'
         get 'non_infected_percentage', to: 'non_infected_percentage#index'
