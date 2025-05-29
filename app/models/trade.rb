@@ -17,14 +17,14 @@ class Trade
   end
 
   def exchange_items(barterer_items, counterpart_items)
-    @barterer_items = barterer_items
-    @counterpart_items = counterpart_items
+    @barterer_items = barterer_items.to_h
+    @counterpart_items = counterpart_items.to_h
 
     return false unless valid? && validate_point_exchange
 
     begin
-      return false unless transfer_items(barterer, counterpart, barterer_items)
-      return false unless transfer_items(counterpart, barterer, counterpart_items)
+      return false unless transfer_items(barterer, counterpart, @barterer_items)
+      return false unless transfer_items(counterpart, barterer, @counterpart_items)
       true
     rescue StandardError
       false
@@ -59,13 +59,13 @@ class Trade
   end
 
   def calculate_points(items)
-    items.sum { |item_id, quantity| Item.find(item_id).point_value * quantity }
+    items.sum { |item_id, quantity| Item.find(item_id).point_value * quantity.to_i }
   end
 
   def transfer_items(from_survivor, to_survivor, items)
     items.each do |item_id, quantity|
       item = Item.find(item_id)
-      quantity.times do
+      quantity.to_i.times do
         unless from_survivor.inventory.remove_item(item)
           @errors << "#{from_survivor.name} doesn't have enough #{item.name}"
           return false
