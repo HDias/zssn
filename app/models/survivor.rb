@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Survivor < ApplicationRecord
+  include Survivors::Reports
+
   validates :name, presence: true, length: { minimum: 2, maximum: 100 }
   validates :age, presence: true,
     numericality: {

@@ -11,6 +11,14 @@ Rails.application.routes.draw do
         end
       end
       resources :trades, only: [:create]
+
+      # Reports endpoints
+      namespace :reports do
+        get 'infected_percentage', to: 'infected_percentage#index'
+        get 'non_infected_percentage', to: 'non_infected_percentage#index'
+        get 'average_items_per_survivor', to: 'average_items_per_survivor#index'
+        get 'points_lost_by_infected', to: 'points_lost_by_infected#index'
+      end
     end
   end
 end
