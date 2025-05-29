@@ -9,6 +9,8 @@ gem "puma", ">= 5.0"
 gem "rack-cors"
 gem "thruster", require: false
 gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "rswag-api"
+gem "rswag-ui"
 
 group :development, :test do
   gem "brakeman", require: false
