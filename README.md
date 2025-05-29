@@ -36,6 +36,17 @@ Para "rodar" o projeto: [Plant UML em Docker](https://plantuml.com/starting)
 - Estará rodando em `http://0.0.0.0:3002/`
 - Para executar os testes: `docker compose exec api_zssn bin/rspec`
 
+## Documentação da API
+
+A documentação da API está disponível através do Swagger UI. Para acessar:
+
+1. Com a aplicação rodando, acesse: `http://localhost:3002/api-docs`
+2. A documentação interativa permite:
+   - Visualizar todos os endpoints disponíveis
+   - Testar as requisições diretamente pela interface
+   - Ver os modelos de dados e suas propriedades
+   - Entender os códigos de resposta possíveis
+
 # ZSSN API
 
 ## Passos de Desenvolvimento e Decisões Técnicas
