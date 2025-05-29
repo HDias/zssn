@@ -7,7 +7,7 @@ module Api
         trade = Trade.new(barterer: find_barterer, counterpart: find_counterpart)
 
         if trade.exchange_items(barterer_items, counterpart_items)
-          render json: { message: 'Trade completed successfully' }, status: :ok
+          render json: { message: "Trade completed successfully" }, status: :ok
         else
           render json: { errors: trade.errors }, status: :unprocessable_entity
         end

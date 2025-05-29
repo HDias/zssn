@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Item < ApplicationRecord
   enum :kind, {
-    water: 'water',
-    food: 'food',
-    medicine: 'medicine',
-    ammunition: 'ammunition'
+    water: "water",
+    food: "food",
+    medicine: "medicine",
+    ammunition: "ammunition"
   }
 
   has_many :inventory_items

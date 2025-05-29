@@ -26,14 +26,14 @@ module Survivors
         return 0 if total.zero?
 
         total_items = joins(inventory: :inventory_items)
-                      .sum('inventory_items.quantity')
+                      .sum("inventory_items.quantity")
         (total_items.to_f / total).round(2)
       end
 
       def points_lost_by_infected
         where(infected: true)
           .joins(inventory: { inventory_items: :item })
-          .sum('inventory_items.quantity * items.point_value')
+          .sum("inventory_items.quantity * items.point_value")
       end
     end
   end

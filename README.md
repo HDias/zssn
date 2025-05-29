@@ -46,16 +46,18 @@ Para "rodar" o projeto: [Plant UML em Docker](https://plantuml.com/starting)
 - Estabelecimento das regras de negócio para infecção (3 relatórios = infectado)
 - Definição do sistema de pontos para itens (água: 4, comida: 3, medicina: 2, munição: 1)
 
-Commit: `fdab542` - docs: create code.puml code design
+Commit: [`fdab542`](https://github.com/HDias/zssn/commit/fdab542) - docs: create code.puml code design
 
 ### 2. Configuração Inicial do Projeto
 - Inicialização do projeto Rails 8 com configuração RSpec
 - Configuração do ambiente Docker para desenvolvimento
 - Migração do SQLite para PostgreSQL
 
-Commit: `bff95f1` - chore: start a empty rails 8 app with rspec config
-Commit: `dd0b171` - chore: config docker
-Commit: `fa2aceb` - refactor: remove sqlite and add pg gem
+Commit: [`bff95f1`](https://github.com/HDias/zssn/commit/bff95f1) - chore: start a empty rails 8 app with rspec config
+
+Commit: [`dd0b171`](https://github.com/HDias/zssn/commit/dd0b171) - chore: config docker
+
+Commit: [`fa2aceb`](https://github.com/HDias/zssn/commit/fa2aceb) - refactor: remove sqlite and add pg gem
 
 ### 3. Implementação das Funcionalidades Principais
 #### Sobreviventes (Survivors)
@@ -64,11 +66,15 @@ Commit: `fa2aceb` - refactor: remove sqlite and add pg gem
 - Adição de inventário vazio após criação do sobrevivente
 - Endpoint para atualização de localização
 
-Commit: `b87d3fc` - feat: create tables survivors and infection_report
-Commit: `6c3a1f0` - feat: create models survidor and infection and specs
-Commit: `c1f5810` - feat(infection_reports): add controller to notify infection and add spectations
-Commit: `a7e3a87` - feat(survivor): add action to create
-Commit: `11e7329` - feat(survivor): add action to update location params
+Commit: [`b87d3fc`](https://github.com/HDias/zssn/commit/b87d3fc) - feat: create tables survivors and infection_report
+
+Commit: [`6c3a1f0`](https://github.com/HDias/zssn/commit/6c3a1f0) - feat: create models survidor and infection and specs
+
+Commit: [`c1f5810`](https://github.com/HDias/zssn/commit/c1f5810) - feat(infection_reports): add controller to notify infection and add spectations
+
+Commit: [`a7e3a87`](https://github.com/HDias/zssn/commit/a7e3a87) - feat(survivor): add action to create
+
+Commit: [`11e7329`](https://github.com/HDias/zssn/commit/11e7329) - feat(survivor): add action to update location params
 
 #### Inventário (Inventory)
 - Criação do sistema de inventário com itens
@@ -76,12 +82,17 @@ Commit: `11e7329` - feat(survivor): add action to update location params
 - Integração com o sistema de pontos
 - Validações de quantidade e tipos de itens
 
-Commit: `aac573e` - feat(inventory): create tables and models to provide data
-Commit: `37b78e8` - feat(inventory): add_items
-Commit: `cbb3b46` - feat(inventory): remove item
-Commit: `418c983` - feat(survivor): add empty inventory after create
-Commit: `3c460bd` - feat(inventory): add endpoitn to add item to survivor inventory'
-Commit: `07dd8f2` - feat(inventory): add action destory to remove item from survivor inventory
+Commit: [`aac573e`](https://github.com/HDias/zssn/commit/aac573e) - feat(inventory): create tables and models to provide data
+
+Commit: [`37b78e8`](https://github.com/HDias/zssn/commit/37b78e8) - feat(inventory): add_items
+
+Commit: [`cbb3b46`](https://github.com/HDias/zssn/commit/cbb3b46) - feat(inventory): remove item
+
+Commit: [`418c983`](https://github.com/HDias/zssn/commit/418c983) - feat(survivor): add empty inventory after create
+
+Commit: [`3c460bd`](https://github.com/HDias/zssn/commit/3c460bd) - feat(inventory): add endpoitn to add item to survivor inventory'
+
+Commit: [`07dd8f2`](https://github.com/HDias/zssn/commit/07dd8f2) - feat(inventory): add action destory to remove item from survivor inventory
 
 #### Sistema de Comércio (Trade)
 - Implementação das regras de troca
@@ -89,8 +100,9 @@ Commit: `07dd8f2` - feat(inventory): add action destory to remove item from surv
 - Endpoint para realização de trocas
 - Sistema de verificação de itens disponíveis
 
-Commit: `d0434ed` - feat(trade): create core trade with rules
-Commit: `5f2e7f5` - feat(trade): create endpint to trade
+Commit: [`d0434ed`](https://github.com/HDias/zssn/commit/d0434ed) - feat(trade): create core trade with rules
+
+Commit: [`5f2e7f5`](https://github.com/HDias/zssn/commit/5f2e7f5) - feat(trade): create endpint to trade
 
 #### Relatórios (Reports)
 - Implementação de endpoints para estatísticas:
@@ -99,7 +111,7 @@ Commit: `5f2e7f5` - feat(trade): create endpint to trade
   - Média de itens por sobrevivente
   - Pontos perdidos por infectados
 
-Commit: `fc52b0c` - feat(reports): create reports controllers
+Commit: [`fc52b0c`](https://github.com/HDias/zssn/commit/fc52b0c) - feat(reports): create reports controllers
 
 ### 4. Melhorias e Refatorações
 - Refatoração do modelo Survivor para Active Record
@@ -107,9 +119,11 @@ Commit: `fc52b0c` - feat(reports): create reports controllers
 - Melhoria na estrutura de rotas
 - Ajustes nas validações e regras de negócio
 
-Commit: `a6a7ba9` - fix: change data modeling
-Commit: `eff1c83` - refactor: change survivor class to a active record and refactor associations and specs
-Commit: `2c1182e` - fix: routes
+Commit: [`a6a7ba9`](https://github.com/HDias/zssn/commit/a6a7ba9) - fix: change data modeling
+
+Commit: [`eff1c83`](https://github.com/HDias/zssn/commit/eff1c83) - refactor: change survivor class to a active record and refactor associations and specs
+
+Commit: [`2c1182e`](https://github.com/HDias/zssn/commit/2c1182e) - fix: routes
 
 ### 5. Decisões Técnicas Importantes
 - Uso de counter_cache para contagem de relatórios de infecção
