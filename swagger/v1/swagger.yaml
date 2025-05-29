@@ -1,0 +1,345 @@
+---
+openapi: 3.0.1
+info:
+  title: ZSSN API
+  version: v1
+paths:
+  "/api/v1/survivors":
+    post:
+      summary: Creates a new survivor
+      tags:
+      - Survivors
+      parameters: []
+      responses:
+        '201':
+          description: survivor created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Survivor'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                survivor:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    age:
+                      type: integer
+                    gender:
+                      type: string
+                      enum:
+                      - male
+                      - female
+                      - other
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                  required:
+                  - name
+                  - age
+                  - gender
+                  - latitude
+                  - longitude
+    patch:
+      summary: Updates survivor location
+      tags:
+      - Survivors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: survivor location updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Survivor'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                survivor:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                  required:
+                  - latitude
+                  - longitude
+
+  "/api/v1/infection_reports":
+    post:
+      summary: Reports a survivor as infected
+      tags:
+      - Infection Reports
+      responses:
+        '201':
+          description: infection report created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfectionReport'
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                infection_report:
+                  type: object
+                  properties:
+                    reporter_id:
+                      type: integer
+                    reported_id:
+                      type: integer
+                    reporter_latitude:
+                      type: number
+                    reporter_longitude:
+                      type: number
+                  required:
+                  - reporter_id
+                  - reported_id
+                  - reporter_latitude
+                  - reporter_longitude
+
+  "/api/v1/trades":
+    post:
+      summary: Performs a trade between two survivors
+      tags:
+      - Trades
+      responses:
+        '200':
+          description: trade completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Trade completed successfully"
+        '422':
+          description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Point values must be equal for both sides of the trade"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                barterer_id:
+                  type: integer
+                  description: ID of the first survivor in the trade
+                counterpart_id:
+                  type: integer
+                  description: ID of the second survivor in the trade
+                barterer_items:
+                  type: object
+                  description: Items being offered by the barterer
+                  additionalProperties:
+                    type: integer
+                    description: Quantity of the item
+                  example:
+                    "1": 1  # water
+                    "2": 1  # food
+                counterpart_items:
+                  type: object
+                  description: Items being offered by the counterpart
+                  additionalProperties:
+                    type: integer
+                    description: Quantity of the item
+                  example:
+                    "3": 2  # medicine
+                    "4": 3  # ammunition
+              required:
+                - barterer_id
+                - counterpart_id
+                - barterer_items
+                - counterpart_items
+              example:
+                barterer_id: 1
+                counterpart_id: 2
+                barterer_items:
+                  "1": 1
+                  "2": 1
+                counterpart_items:
+                  "3": 2
+                  "4": 3
+
+  "/api/v1/reports/infected_percentage":
+    get:
+      summary: Get percentage of infected survivors
+      tags:
+      - Reports
+      responses:
+        '200':
+          description: infected percentage retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  infected_percentage:
+                    type: number
+
+  "/api/v1/reports/non_infected_percentage":
+    get:
+      summary: Get percentage of non-infected survivors
+      tags:
+      - Reports
+      responses:
+        '200':
+          description: non-infected percentage retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_infected_percentage:
+                    type: number
+
+  "/api/v1/reports/average_items_per_survivor":
+    get:
+      summary: Get average items per survivor
+      tags:
+      - Reports
+      responses:
+        '200':
+          description: average items retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  average_items:
+                    type: object
+                    additionalProperties:
+                      type: number
+
+  "/api/v1/reports/points_lost_by_infected":
+    get:
+      summary: Get points lost due to infected survivors
+      tags:
+      - Reports
+      responses:
+        '200':
+          description: points lost retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points_lost:
+                    type: number
+
+components:
+  schemas:
+    Survivor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        age:
+          type: integer
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+        latitude:
+          type: number
+        longitude:
+          type: number
+        infected:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    InfectionReport:
+      type: object
+      properties:
+        id:
+          type: integer
+        reporter_id:
+          type: integer
+        reported_id:
+          type: integer
+        reporter_latitude:
+          type: number
+        reporter_longitude:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+servers:
+- url: http://localhost:3002
+  variables:
+    defaultHost:
+      default: localhost:3002
